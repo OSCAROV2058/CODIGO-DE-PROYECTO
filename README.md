@@ -104,21 +104,22 @@ void setup() {
 
 void loop() {
 
- unsigned long tiempoActual = millis();
-  if (tiempoActual - tiempoAnterior >= intervalo) {
-    tiempoAnterior = tiempoActual;
-    Serial.print("LITROS EN TANQUE: ");
-    Serial.print(tiempoActual);
-    Serial.println(" litros");
-  }
-int AGITADOR = 0;
-if (tiempoActual >= 35000 && tiempoActual <= 50000){
+int nivel = 0;
+int niveldetanque = 0;
+ for (nivel = 0; nivel <= 50000; nivel+=1000) {
+    Serial.print("LITROS: ");
+    Serial.println(nivel);
+    delay(800);
+  
+  
+  
+  int AGITADOR = 0;
+if (nivel >= 35000 && nivel <= 50000){
   tone(19, 262, 250); // Plays 262Hz tone for 0.250 seconds
   AGITADOR = 1;
 }
-else {
+if (nivel >= 0 && nivel <= 35000){
 AGITADOR = 0;
-
 }
 
 delay(1000);
@@ -136,8 +137,8 @@ delay(1000);
     StaticJsonDocument<128> doc;
 
     doc["DEVICE"] = "ESP32";
-    doc["NIVEL_DE_AGUA"] = String(tiempoActual);
-    doc["AGITADOR_ON"] = String(AGITADOR);
+    doc["NIVEL_DE_AGUA"] = String(nivel);
+    doc["ESTADO_DE_AGITADOR"] = String(AGITADOR);
 
 
 
@@ -149,6 +150,13 @@ delay(1000);
     Serial.println(output);
     Serial.println(output.c_str());
     client.publish("DiplomadoOJOV", output.c_str());
-  }
+  } 
+ } //fin de ciclo for
+
+  
+
+
+
+
 }
 ```
