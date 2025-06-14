@@ -105,15 +105,17 @@ void setup() {
 void loop() {
 
  unsigned long tiempoActual = millis();
-
   if (tiempoActual - tiempoAnterior >= intervalo) {
     tiempoAnterior = tiempoActual;
     Serial.print("Tiempo transcurrido: ");
     Serial.print(tiempoActual);
-    Serial.println(" ms");
+    Serial.println(" litros");
   }
 
+if (tiempoActual >= 25000 && tiempoActual <= 50000){
+tone(19, 262, 250); // Plays 262Hz tone for 0.250 seconds
 
+}
 
 delay(1000);
   if (!client.connected()) {
@@ -130,8 +132,8 @@ delay(1000);
     StaticJsonDocument<128> doc;
 
     doc["DEVICE"] = "ESP32";
-    //doc["NOMBRE"] = "OSCAR OCAMPO";
     doc["NIVEL_DE_AGUA"] = String(tiempoActual);
+
 
     String output;
     
