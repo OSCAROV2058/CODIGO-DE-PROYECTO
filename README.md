@@ -107,13 +107,17 @@ void loop() {
  unsigned long tiempoActual = millis();
   if (tiempoActual - tiempoAnterior >= intervalo) {
     tiempoAnterior = tiempoActual;
-    Serial.print("Tiempo transcurrido: ");
+    Serial.print("LITROS EN TANQUE: ");
     Serial.print(tiempoActual);
     Serial.println(" litros");
   }
-
-if (tiempoActual >= 25000 && tiempoActual <= 50000){
-tone(19, 262, 250); // Plays 262Hz tone for 0.250 seconds
+int AGITADOR = 0;
+if (tiempoActual >= 35000 && tiempoActual <= 50000){
+  tone(19, 262, 250); // Plays 262Hz tone for 0.250 seconds
+  AGITADOR = 1;
+}
+else {
+AGITADOR = 0;
 
 }
 
@@ -133,6 +137,8 @@ delay(1000);
 
     doc["DEVICE"] = "ESP32";
     doc["NIVEL_DE_AGUA"] = String(tiempoActual);
+    doc["AGITADOR_ON"] = String(AGITADOR);
+
 
 
     String output;
